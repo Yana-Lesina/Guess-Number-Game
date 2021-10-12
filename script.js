@@ -1,39 +1,69 @@
 'use strict'
 
+let userChoice;
+
+
 const isNumber = function (num) {
   return !isNaN(parseInt(num)) && isFinite(num) && num !== null;
 }
 
+
 const game = function() {
   const randomNum = Math.round(Math.random() * 99 + 1);
-  alert('Загаданное число = ' + randomNum); ////////////////////это проверка, потом удалить
+  let attempts = 3;
 
   return function repeat() {
 
-    let userNum = prompt('Угадай число от 1 до 100: ');
+    if (attempts > 0) {
 
-    if( isNumber(userNum) ) {
+      let userNum = prompt('Угадай число от 1 до 100: ');
 
-      if( userNum < randomNum ) {
-        alert ('Загаданное число больше')
-        repeat()
-      } else if ( userNum > randomNum ) {
-        alert ('Загаданное число меньше')
-        repeat()
+      if( isNumber(userNum) ) {
+
+        if( userNum < randomNum ) {
+          alert ('Загаданное число больше, осталось попыток: ' + --attempts)
+          repeat()
+        } else if ( userNum > randomNum ) {
+          alert ('Загаданное число меньше, осталось попыток: ' + --attempts)
+          repeat()
+        } else {
+          userChoice = confirm ('Поздравляю, Вы угадали!!! \nХотите сыграть ещё?')
+        }
+
       } else {
-        alert ('Поздравляю, Вы угадали!!!')
-      }
+        if( userNum === null ) {
+          alert('Игра окончена')
+          userChoice = false
 
+        } else {
+          alert ('Введи число!!!')
+          repeat ()
+        }
+      }
+  
     } else {
-      if( userNum === null ) {
-        alert('Игра окончена')
-
-      } else {
-        alert ('Введи число!!!')
-        repeat ()
-      }
+      userChoice = confirm ('Игра окончена, вы проиграли \nХотите сыграть ещё?')
     }
   }
 }
 
-game()()
+
+const GuessNumber = function () {
+  userChoice = true
+
+  return function startGame() {
+    game()()
+
+    if(userChoice) {
+      startGame()
+    } else {
+      alert('Вы вышли из игры успешно')
+    }
+  }
+}
+
+
+
+
+
+GuessNumber()()
