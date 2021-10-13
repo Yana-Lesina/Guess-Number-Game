@@ -48,7 +48,7 @@ const game = function() {
 }
 
 
-const GuessNumber = function () {
+const guessNumber = function () {
   userChoice = true
 
   return function startGame() {
@@ -66,4 +66,4 @@ const GuessNumber = function () {
 
 
 
-GuessNumber()()
+guessNumber()()
